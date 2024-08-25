@@ -38,38 +38,43 @@ export const useGameState = () => {
     const winner = useMemo(() =>
         calculateWinner(state.history[state.currentMove].squares), [state.history, state.currentMove]);
 
-    const xIsNext = state.currentMove % 2 === 0;
+
 
     const currentState = useMemo(() => {
+        const xIsNext = state.currentMove % 2 === 0;
         return winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
-    }, [winner, xIsNext ]);
+    }, [winner, state.currentMove ]);
 
 
-    function handlePlay(nextSquares: SquareState[]) {
+    function handleClick(squaresIndex: number) {
         setState(({history, currentMove}) => {
-            const nextHistory = [...state.history.slice(0, state.currentMove + 1),
+            const currentStep = history[currentMove];
+            if (winner || currentStep?.squares[squaresIndex]) {
+                return {
+                    history,
+                    currentMove: history.length -1,
+                }
+            }
+            const squares = currentStep.squares;
+            const nextSquares = squares.slice();
+            const xIsNext = currentMove % 2 === 0;
+
+            if (xIsNext) {
+                nextSquares[squaresIndex] = 'X';
+            } else {
+                nextSquares[squaresIndex] = 'O';
+            }
+            const nextHistory = [...history.slice(0, currentMove + 1),
                 {squares: nextSquares}];
+
+            console.log(`nextHistory:: ${nextHistory}`);
+            console.log(`nextHistory.length -1 nextHistory.length -1: ${nextHistory.length -1}`);
+
             return {
                 history: nextHistory,
                 currentMove: nextHistory.length -1,
             }
         })
-    }
-
-    function handleClick(squaresIndex: number) {
-        const currentStep = state.history[state.currentMove];
-        if (winner || currentStep?.squares[squaresIndex]) {
-            return;
-        }
-        const squares = currentStep.squares;
-        const nextSquares = squares.slice();
-
-        if (xIsNext) {
-            nextSquares[squaresIndex] = 'X';
-        } else {
-            nextSquares[squaresIndex] = 'O';
-        }
-        handlePlay(nextSquares);
     }
 
     const jumpTo = useCallback((move: number) => {
@@ -80,6 +85,5 @@ export const useGameState = () => {
     }, []);
 
 
-    const currentSquares = state.history[state.currentMove].squares;
-    return {state, currentSquares, currentState, xIsNext, handleClick, jumpTo} as const;
+    return {state, currentState, handleClick, jumpTo} as const;
 }

@@ -6,7 +6,6 @@ const rowLength = 3;
 const columnLength = 3;
 
 type BoardProps = {
-    xIsNext: boolean,
     squares: SquareState[],
     onSquareClick: (i: number) => void
 }

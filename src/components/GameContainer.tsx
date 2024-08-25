@@ -4,9 +4,9 @@ import {useGameState} from "../hooks/useGameState";
 
 
 const GameContainer = () => {
-    const {state, currentSquares, currentState, xIsNext, handleClick, jumpTo} = useGameState();
+    const {state, currentState, handleClick, jumpTo} = useGameState();
     return (
-        <Game state={state} currentSquares={currentSquares} currentState={currentState} xIsNext={xIsNext} handleClick={handleClick} jumpTo={jumpTo}></Game>
+        <Game state={state} currentState={currentState} handleClick={handleClick} jumpTo={jumpTo}></Game>
     )
 };
 
