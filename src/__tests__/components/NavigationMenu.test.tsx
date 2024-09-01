@@ -1,60 +1,71 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';;
-import NavigationMenu from "../../components/NavigationMenu";
-import {Step} from "../../types/gameType";
-
-jest.mock('../../components/Square')
+import { render, screen } from '@testing-library/react';
+import NavigationMenu from '../../components/NavigationMenu';
+import { Step } from '../../types/gameType';
+import userEvent from '@testing-library/user-event';
 
 describe('NavigationMenu Component', () => {
-    const jumpTo = jest.fn();
-
-    beforeEach(() => {
-    });
+    const jumpToMock = jest.fn();
 
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it('renders the correct number of squares', () => {
-        const history : Step[] = [];
-        render(<NavigationMenu history={history} onJumpTo={jumpTo} />);
+    const generateHistory = (length: number) =>
+        Array(length).fill(0).map(() => ({squares: []}));
+
+    test('does not render any buttons when history is empty', () => {
+        const history: Step[] = [];
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
         expect(screen.queryByRole('button', {  name: /go to game start/i})).not.toBeInTheDocument();
-        [...Array(8).keys()].map((index) => {
-            expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument();
-        });
+        Array(8).fill(0).forEach((_, index) =>
+            expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument());
     });
 
-
-    it('renders the correct number of squares2', () => {
-        const history: Step[] = generateHIstory(1)
-        render(<NavigationMenu history={history} onJumpTo={jumpTo} />);
+    test('renders only the "Go to game start" button when history has one ste', () => {
+        const history: Step[] = generateHistory(1)
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
         expect(screen.getByRole('button', {  name: /go to game start/i})).toBeInTheDocument();
-        [...Array(8).keys()].map((index) => {
-            expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument();
-        })
+        Array(8).fill(0).forEach((_, index) =>
+            expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument())
     });
 
-    it('renders the correct number of squares4', () => {
-        const history: Step[] = generateHIstory(2)
-        render(<NavigationMenu history={history} onJumpTo={jumpTo} />);
+    test('renders "Go to game start" and "Go to move #1" buttons when history has two steps', () => {
+        const history: Step[] = generateHistory(2)
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
         expect(screen.getByRole('button', {  name: /go to game start/i})).toBeInTheDocument();
         expect(screen.getByRole('button', {  name: `Go to move #1`})).toBeInTheDocument();
-
     });
 
-
-    it('renders the correct number of squares3', () => {
-        const history: Step[] = generateHIstory(9)
-        render(<NavigationMenu history={history} onJumpTo={jumpTo} />);
+    test('renders all move buttons when history has nine step', () => {
+        const history: Step[] = generateHistory(9)
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
 
         expect(screen.getByRole('button', {  name: /go to game start/i})).toBeInTheDocument();
-        Array(8).fill(0).map((_, index) => {
-            console.log(`index: ${index}`);
-            expect(screen.getByRole('button', {  name: `Go to move #${index+1}`})).toBeInTheDocument();
-        })
+        Array(8).fill(0).forEach((_, index) =>
+            expect(screen.getByRole('button', {  name: `Go to move #${index+1}`})).toBeInTheDocument())
     });
 
-    const generateHIstory = (length: number) =>
-        Array(length).fill(0).map((_) => { return  {squares: []} })
+    test('calls onJumpTo with 0 when "Go to game start" button is clicked', () => {
+        const history: Step[] = generateHistory(2)
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
+        userEvent.click(screen.getByRole('button', {  name: /go to game start/i}));
+        expect(jumpToMock).toHaveBeenCalledTimes(1);
+        expect(jumpToMock).toHaveBeenCalledWith(0);
+    });
+
+    test('calls onJumpTo with the correct move number when a move button is clicked', () => {
+        const history: Step[] = generateHistory(3)
+        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
+        userEvent.click(screen.getByRole('button', {  name: /Go to move #1/i}));
+
+
+        expect(jumpToMock).toHaveBeenCalledTimes(1);
+        expect(jumpToMock).toHaveBeenNthCalledWith(1, 1);
+
+        userEvent.click(screen.getByRole('button', {  name: /Go to move #2/i}));
+        expect(jumpToMock).toHaveBeenCalledTimes(2);
+        expect(jumpToMock).toHaveBeenNthCalledWith(2, 2);
+    });
 
 });

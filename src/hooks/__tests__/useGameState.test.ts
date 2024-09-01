@@ -39,7 +39,7 @@ describe('useGameState', () => {
         act(() => {
             result.current.handleClick(0);
             result.current.handleClick(1);
-            result.current.jumpTo(0);
+            result.current.handleJumpTo(0);
         });
         expect(result.current.state.currentMove).toBe(0);
         expect(result.current.currentState).toBe('Next player: X');

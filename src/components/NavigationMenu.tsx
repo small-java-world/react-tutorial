@@ -1,9 +1,9 @@
 import React from 'react';
 import {Step} from "../types/gameType";
 
-type NavigationMenuProp =  {
+export type NavigationMenuProp =  {
     history: Step[],
-    onJumpTo: (move: number) => void,
+    handleJumpTo: (move: number) => void,
 }
 
 const NavigationMenu = (props: NavigationMenuProp) => {
@@ -14,7 +14,7 @@ const NavigationMenu = (props: NavigationMenuProp) => {
                     const desc = move > 0 ? `Go to move #${move}` : 'Go to game start'
                     return (
                         <li key={move}>
-                            <button onClick={() => props.onJumpTo(move)}>{desc}</button>
+                            <button onClick={() => props.handleJumpTo(move)}>{desc}</button>
                         </li>
                     )
                 })

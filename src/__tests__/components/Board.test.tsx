@@ -6,7 +6,6 @@ import {SquareProps} from "../../components/Square";
 import {SquareState} from "../../types/gameType";
 
 jest.mock('../../components/Square')
-let Square: jest.SpyInstance
 
 describe('Board Component', () => {
     const onSquareClick = jest.fn();
@@ -22,7 +21,7 @@ describe('Board Component', () => {
     });
 
     it('renders the correct number of squares', () => {
-        render(<Board squares={squares} onSquareClick={onSquareClick} xIsNext={true} />);
+        render(<Board squares={squares} handleClick={onSquareClick}/>);
         expect(squareSpy).toHaveBeenCalledTimes(9);
         squares.forEach((value, index) => {
             expect(squareSpy).toHaveBeenNthCalledWith(index + 1,
@@ -43,7 +42,7 @@ describe('Board Component', () => {
                 </button>
             )
         });
-        render(<Board squares={squares} onSquareClick={onSquareClick} xIsNext={true} />);
+        render(<Board squares={squares} handleClick={onSquareClick}/>);
         const firstSquareButton = screen.getAllByRole('button')[0];
         fireEvent.click(firstSquareButton);
         expect(onSquareClick).toHaveBeenCalledTimes(1);

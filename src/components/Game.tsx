@@ -3,21 +3,21 @@ import NavigationMenu from "./NavigationMenu";
 import {GameState, SquareState} from "../types/gameType";
 import {getCurrentSquare} from "../utils/GameStateUtil";
 
-type GameProps = {
+export type GameProps = {
     state: GameState,
     currentState: string,
-    handleClick : (squaresIndex:number) => void,
-    jumpTo : (nextMove:number) => void,
+    handleClick : (squaresIndex: number) => void,
+    handleJumpTo : (nextMove: number) => void,
 }
 
 
 const Game = (props: GameProps) => {
-    const {state, currentState, handleClick, jumpTo} = props;
+    const {state, currentState, handleClick, handleJumpTo} = props;
     return (
         <div className='game'>
             <div className="status">{currentState}</div>
-            <Board squares={getCurrentSquare(state)} onSquareClick={handleClick}/>
-            <NavigationMenu history={state.history} onJumpTo={jumpTo}></NavigationMenu>
+            <Board squares={getCurrentSquare(state)} handleClick={handleClick}/>
+            <NavigationMenu history={state.history} handleJumpTo={handleJumpTo}></NavigationMenu>
         </div>
     )
 };

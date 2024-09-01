@@ -77,7 +77,7 @@ export const useGameState = () => {
         })
     }
 
-    const jumpTo = useCallback((move: number) => {
+    const handleJumpTo = useCallback((move: number) => {
         setState(prev => ({
             ...prev,
             currentMove: move
@@ -85,5 +85,5 @@ export const useGameState = () => {
     }, []);
 
 
-    return {state, currentState, handleClick, jumpTo} as const;
+    return {state, currentState, handleClick, handleJumpTo} as const;
 }
