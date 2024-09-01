@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, screen, fireEvent, prettyDOM} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import Board from '../../components/Board';
 import * as square from "../../components/Square";
 import {SquareProps} from "../../components/Square";

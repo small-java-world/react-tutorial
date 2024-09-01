@@ -15,8 +15,7 @@ describe('NavigationMenu Component', () => {
         Array(length).fill(0).map(() => ({squares: []}));
 
     test('does not render any buttons when history is empty', () => {
-        const history: Step[] = [];
-        render(<NavigationMenu history={history} handleJumpTo={jumpToMock} />);
+        render(<NavigationMenu history={[]} handleJumpTo={jumpToMock} />);
         expect(screen.queryByRole('button', {  name: /go to game start/i})).not.toBeInTheDocument();
         Array(8).fill(0).forEach((_, index) =>
             expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument());

@@ -1,6 +1,6 @@
 import Board from "../components/Board";
 import NavigationMenu from "./NavigationMenu";
-import {GameState, SquareState} from "../types/gameType";
+import {GameState} from "../types/gameType";
 import {getCurrentSquare} from "../utils/GameStateUtil";
 
 export type GameProps = {
