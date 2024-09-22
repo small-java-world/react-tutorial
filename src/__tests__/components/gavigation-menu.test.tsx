@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import NavigationMenu from '../../components/NavigationMenu';
-import { Step } from '../../types/gameType';
+import NavigationMenu from '../../components/navigation-menu';
+import { Step } from '../../types/game-type';
 import userEvent from '@testing-library/user-event';
 
 describe('NavigationMenu Component', () => {

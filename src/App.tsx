@@ -1,6 +1,6 @@
 
 import './index.css'
-import Game from "./components/Game";
+import Game from "./components/game";
 
 function App() {
   return (<Game />);

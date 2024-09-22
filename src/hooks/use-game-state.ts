@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useState} from 'react';
-import {GameState, SquareState} from "../types/gameType";
+import {GameState, SquareState} from "../types/game-type";
 
 const calculateWinner = (squares: SquareState[]) => {
     const lines = [

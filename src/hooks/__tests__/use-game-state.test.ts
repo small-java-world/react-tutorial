@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { useGameState } from '../useGameState';
+import { useGameState } from '../use-game-state';
 
 describe('useGameState', () => {
     it('should initialize with correct state', () => {

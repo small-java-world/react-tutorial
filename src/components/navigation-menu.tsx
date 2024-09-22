@@ -1,5 +1,5 @@
 import React from 'react';
-import {Step} from "../types/gameType";
+import {Step} from "../types/game-type";
 
 export type NavigationMenuProp =  {
     history: Step[],
