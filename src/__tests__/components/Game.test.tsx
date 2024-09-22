@@ -57,15 +57,6 @@ describe('Game Component', () => {
         jest.clearAllMocks();
     });
 
-    const generateGameState = (historyLength: number): GameState => ({
-        history: Array(historyLength).fill({ squares: Array(9).fill(null) }),
-        currentMove: historyLength - 1
-    });
-
-    test('renders game status correctly', () => {
-        render(<Game />);
-    });
-
     test('renders Board component with correct props', () => {
         render(<Game />);
         expect(screen.getByTestId('board')).toBeInTheDocument();
