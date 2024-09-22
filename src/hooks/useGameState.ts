@@ -38,7 +38,7 @@ export const useGameState = () => {
     const winner =
         calculateWinner(state.history[state.currentMove].squares);
 
-    const currentState = useMemo(() => {
+    const currentStatus = useMemo(() => {
         const xIsNext = state.currentMove % 2 === 0;
         return winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
     }, [winner, state.currentMove ]);
@@ -79,6 +79,6 @@ export const useGameState = () => {
         }))
     }, []);
 
-
-    return {state, currentState, handleClick, handleJumpTo} as const;
+    const currentSquares = state.history[state.currentMove].squares;
+    return {state, currentStatus, currentSquares, handleClick, handleJumpTo} as const;
 }

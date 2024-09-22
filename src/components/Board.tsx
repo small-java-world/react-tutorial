@@ -7,24 +7,25 @@ const columnLength = 3;
 
 export type BoardProps = {
     squares: SquareState[],
+    currentStatus: string,
     handleClick: (i: number) => void
 }
 
 const Board = (props: BoardProps) => {
     return (
-        <div>
+        <div className="game-board">
+            <div className="status">{props.currentStatus}</div>
             {Array(rowLength).fill(0).map((_: undefined, rowIndex: number) => {
                 return (
                     <div className='board-row' key={`row-${rowIndex}`}>
-                        <>
-                            {[...Array(columnLength)].map((_: undefined, columnIndex: number) => {
-                                const squaresIndex = columnIndex + rowIndex * rowLength;
-                                return <Square value={props.squares[squaresIndex]}
-                                               onSquareClick={() => props.handleClick(squaresIndex)}
-                                               key={`column-${rowIndex}-${columnIndex}`}/>
-                            })}
-                        </>
-                    </div>);
+                        {[...Array(columnLength)].map((_: undefined, columnIndex: number) => {
+                            const squaresIndex = columnIndex + rowIndex * rowLength;
+                            return <Square value={props.squares[squaresIndex]}
+                                           onSquareClick={() => props.handleClick(squaresIndex)}
+                                           key={`column-${rowIndex}-${columnIndex}`}/>;
+                        })}
+                    </div>
+                );
             })}
         </div>
     );

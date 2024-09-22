@@ -11,10 +11,10 @@ const NavigationMenu = (props: NavigationMenuProp) => {
         <div className='game-info'>
             <ol>{
                 props.history.map((_step, move) => {
-                    const desc = move > 0 ? `Go to move #${move}` : 'Go to game start'
+                    const description = move > 0 ? `Go to move #${move}` : 'Go to game start'
                     return (
                         <li key={move}>
-                            <button onClick={() => props.handleJumpTo(move)}>{desc}</button>
+                            <button onClick={() => props.handleJumpTo(move)}>{description}</button>
                         </li>
                     )
                 })

@@ -11,6 +11,7 @@ describe('Board Component', () => {
     const onSquareClick = jest.fn();
     const squares: SquareState[] = ["O", "O", "X", "O", "X", "O", "X", "O", "X"];
     let squareSpy: jest.SpyInstance;
+    const mockCurrentStatus =  "Next player: X";
 
     beforeEach(() => {
         squareSpy = jest.spyOn(square, "default")
@@ -21,7 +22,9 @@ describe('Board Component', () => {
     });
 
     it('renders the correct number of squares', () => {
-        render(<Board squares={squares} handleClick={onSquareClick}/>);
+        render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
+        expect(screen.getByText(/Next player: X/i)).toBeInTheDocument();
+
         expect(squareSpy).toHaveBeenCalledTimes(9);
         squares.forEach((value, index) => {
             expect(squareSpy).toHaveBeenNthCalledWith(index + 1,
@@ -42,7 +45,7 @@ describe('Board Component', () => {
                 </button>
             )
         });
-        render(<Board squares={squares} handleClick={onSquareClick}/>);
+        render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
         const firstSquareButton = screen.getAllByRole('button')[0];
         fireEvent.click(firstSquareButton);
         expect(onSquareClick).toHaveBeenCalledTimes(1);

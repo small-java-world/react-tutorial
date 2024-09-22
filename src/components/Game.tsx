@@ -1,22 +1,14 @@
 import Board from "../components/Board";
 import NavigationMenu from "./NavigationMenu";
-import {GameState} from "../types/gameType";
-import {getCurrentSquare} from "../utils/GameStateUtil";
-
-export type GameProps = {
-    state: GameState,
-    currentState: string,
-    handleClick : (squaresIndex: number) => void,
-    handleJumpTo : (nextMove: number) => void,
-}
+import {useGameState} from "../hooks/useGameState";
 
 
-const Game = (props: GameProps) => {
-    const {state, currentState, handleClick, handleJumpTo} = props;
+
+const Game = () => {
+    const {state, currentStatus, currentSquares, handleClick, handleJumpTo} = useGameState();
     return (
         <div className='game'>
-            <div className="status">{currentState}</div>
-            <Board squares={getCurrentSquare(state)} handleClick={handleClick}/>
+            <Board squares={currentSquares} currentStatus={currentStatus} handleClick={handleClick}/>
             <NavigationMenu history={state.history} handleJumpTo={handleJumpTo}></NavigationMenu>
         </div>
     )

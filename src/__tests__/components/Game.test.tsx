@@ -2,30 +2,54 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../components/Game';
 import { GameState } from '../../types/gameType';
-import { getCurrentSquare } from '../../utils/GameStateUtil';
 import {NavigationMenuProp} from "../../components/NavigationMenu";
 import {BoardProps} from "../../components/Board";
 import * as board from "../../components/Board";
 import * as navigationMenu from "../../components/NavigationMenu";
+import {useGameState} from "../../hooks/useGameState";
 
+jest.mock('../../hooks/useGameState');
 jest.mock('../../components/Board');
 jest.mock('../../components/NavigationMenu');
+
 
 describe('Game Component', () => {
     let bordSpy: jest.SpyInstance;
     let navigationMenuSpy: jest.SpyInstance;
-    const handleClickMock = jest.fn();
-    const jumpToMock = jest.fn();
+    const dummyState = {
+        history: [{ squares: Array(9).fill(null) }],
+        currentMove: 0
+    };
+
+    const mockUseGameState = useGameState as jest.MockedFunction<typeof useGameState>;
+    const mockHandleClick = jest.fn();
+    const mockHandleJumpTo = jest.fn();
+    const mockCurrentStatus =  "Next player: X";
 
     beforeEach(() => {
+        mockUseGameState.mockReturnValue({
+            state: dummyState,
+            currentStatus: mockCurrentStatus,
+            currentSquares: dummyState.history[dummyState.currentMove].squares,
+            handleClick: mockHandleClick,
+            handleJumpTo: mockHandleJumpTo
+        });
+
         bordSpy = jest.spyOn(board, "default");
         navigationMenuSpy = jest.spyOn(navigationMenu, "default");
 
         bordSpy.mockImplementation((props: BoardProps) => (
-            <div data-testid="board" onClick={() => props.handleClick(0)}>{props.squares.length}</div>
+            <>
+                <div data-testid="board" onClick={() => props.handleClick(0)} >
+                    <div data-testid="board-current-status">{props.currentStatus}</div>
+                    <div data-testid="board-current-square">{JSON.stringify(props.squares)}</div>
+                </div>
+            </>
         ));
         navigationMenuSpy.mockImplementation((props: NavigationMenuProp) => (
-            <div data-testid="navigation-menu" onClick={() => props.handleJumpTo(0)}>{props.history.length}</div>
+            <div data-testid="navigation-menu" onClick={() => props.handleJumpTo(1)}>
+                {JSON.stringify(props.history)}
+            </div>
         ));
     });
 
@@ -39,38 +63,33 @@ describe('Game Component', () => {
     });
 
     test('renders game status correctly', () => {
-        const state = generateGameState(1);
-        render(<Game state={state} currentState="Next player: X" handleClick={handleClickMock} handleJumpTo={jumpToMock} />);
-        expect(screen.getByText(/Next player: X/i)).toBeInTheDocument();
+        render(<Game />);
     });
 
     test('renders Board component with correct props', () => {
-        const state = generateGameState(1);
-        render(<Game state={state} currentState="Next player: X" handleClick={handleClickMock} handleJumpTo={jumpToMock} />);
+        render(<Game />);
         expect(screen.getByTestId('board')).toBeInTheDocument();
-        expect(screen.getByTestId('board').textContent).toBe(getCurrentSquare(state).length.toString());
+        expect(screen.getByTestId('board-current-status').textContent).toBe(mockCurrentStatus);
+        expect(screen.getByTestId('board-current-square').textContent).toBe(JSON.stringify(dummyState.history[dummyState.currentMove].squares));
     });
 
     test('renders NavigationMenu component with correct props', () => {
-        const state = generateGameState(2);
-        render(<Game state={state} currentState="Next player: X" handleClick={handleClickMock} handleJumpTo={jumpToMock} />);
+        render(<Game/>);
         expect(screen.getByTestId('navigation-menu')).toBeInTheDocument();
-        expect(screen.getByTestId('navigation-menu').textContent).toBe(state.history.length.toString());
+        expect(screen.getByTestId('navigation-menu').textContent).toBe(JSON.stringify(dummyState.history));
     });
 
     test('calls handleClick when a square is clicked', () => {
-        const state = generateGameState(1);
-        render(<Game state={state} currentState="Next player: X" handleClick={handleClickMock} handleJumpTo={jumpToMock} />);
+        render(<Game />);
         fireEvent.click(screen.getByTestId('board'));
-        expect(handleClickMock).toHaveBeenCalledTimes(1);
-        expect(handleClickMock).toHaveBeenCalledWith(0);
+        expect(mockHandleClick).toHaveBeenCalledTimes(1);
+        expect(mockHandleClick).toHaveBeenCalledWith(0);
     });
 
     test('calls jumpTo when a navigation button is clicked', () => {
-        const state = generateGameState(2);
-        render(<Game state={state} currentState="Next player: X" handleClick={handleClickMock} handleJumpTo={jumpToMock} />);
+        render(<Game />);
         fireEvent.click(screen.getByTestId('navigation-menu'));
-        expect(jumpToMock).toHaveBeenCalledTimes(1);
-        expect(jumpToMock).toHaveBeenCalledWith(0);
+        expect(mockHandleJumpTo).toHaveBeenCalledTimes(1);
+        expect(mockHandleJumpTo).toHaveBeenCalledWith(1);
     });
 });

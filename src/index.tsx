@@ -1,12 +1,5 @@
 import ReactDOM from 'react-dom'
-import './index.css'
-import GameContainer from "./components/GameContainer";
+import "./styles.css";
+import App from "./App";
 
-const MainPage = () => {
-    return (<GameContainer></GameContainer>);
-}
-
-
-// ========================================
-
-ReactDOM.render(<MainPage />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))
