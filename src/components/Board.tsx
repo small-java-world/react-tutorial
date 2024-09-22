@@ -1,6 +1,6 @@
 import React from 'react';
-import {SquareState} from "../types/gameType";
-import Square from "../components/Square"
+import {SquareState} from "../types/game-type";
+import Square from "../components/square"
 
 const rowLength = 3;
 const columnLength = 3;

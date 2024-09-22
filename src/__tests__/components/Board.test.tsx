@@ -1,9 +1,9 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
-import Board from '../../components/Board';
-import * as square from "../../components/Square";
-import {SquareProps} from "../../components/Square";
-import {SquareState} from "../../types/gameType";
+import Board from '../../components/board';
+import * as square from "../../components/square";
+import {SquareProps} from "../../components/square";
+import {SquareState} from "../../types/game-type";
 
 jest.mock('../../components/Square')
 

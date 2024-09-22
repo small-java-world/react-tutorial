@@ -1,6 +1,6 @@
-import Board from "../components/Board";
-import NavigationMenu from "./NavigationMenu";
-import {useGameState} from "../hooks/useGameState";
+import Board from "../components/board";
+import NavigationMenu from "./navigation-menu";
+import {useGameState} from "../hooks/use-game-state";
 
 
 

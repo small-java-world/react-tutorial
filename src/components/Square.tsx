@@ -1,5 +1,5 @@
 import React from 'react';
-import {SquareState} from "../types/gameType";
+import {SquareState} from "../types/game-type";
 
 export type SquareProps = {
     value: SquareState
