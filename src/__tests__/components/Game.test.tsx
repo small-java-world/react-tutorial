@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from '../../components/Game';
-import { GameState } from '../../types/gameType';
 import {NavigationMenuProp} from "../../components/NavigationMenu";
 import {BoardProps} from "../../components/Board";
 import * as board from "../../components/Board";
