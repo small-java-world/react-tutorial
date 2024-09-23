@@ -1,5 +1,4 @@
 
-import './index.css'
 import Game from "./components/game";
 
 function App() {

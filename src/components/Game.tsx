@@ -2,8 +2,6 @@ import Board from "../components/board";
 import NavigationMenu from "./navigation-menu";
 import {useGameState} from "../hooks/use-game-state";
 
-
-
 const Game = () => {
     const {state, currentStatus, currentSquares, handleClick, handleJumpTo} = useGameState();
     return (
