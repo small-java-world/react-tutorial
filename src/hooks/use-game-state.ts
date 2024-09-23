@@ -44,7 +44,7 @@ export const useGameState = () => {
     }, [winner, state.currentMove ]);
 
 
-    function handleClick(squaresIndex: number) {
+    const handleClick = useCallback((squaresIndex: number) => {
         setState(({history, currentMove}) => {
             const currentStep = history[currentMove];
             if (winner || currentStep?.squares[squaresIndex]) {
@@ -70,7 +70,7 @@ export const useGameState = () => {
                 currentMove: nextHistory.length -1,
             }
         })
-    }
+    }, [winner]);
 
     const handleJumpTo = useCallback((move: number) => {
         setState(prev => ({
