@@ -20,7 +20,7 @@ describe('Board Component', () => {
         jest.clearAllMocks();
     });
 
-    it('renders the correct number of rows', () => {
+    test('renders the correct number of rows', () => {
         render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
         expect(screen.getByText(/Next player: X/i)).toBeInTheDocument();
 
@@ -38,10 +38,11 @@ describe('Board Component', () => {
         });
     });
 
-    it('calls handleClick when square is clicked', () => {
+    test('calls handleClick when square is clicked', () => {
         boardRowSpy.mockImplementation(({ rowIndex, handleClick }) => {
             return (
-                <div className='board-row' data-testid={`board-row-${rowIndex}`} onClick={() => handleClick(rowIndex)} />
+                <div className='board-row' data-testid={`board-row-${rowIndex}`}
+                     onClick={() => handleClick(rowIndex)} />
             );
         });
         render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
