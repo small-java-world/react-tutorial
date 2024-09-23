@@ -38,7 +38,7 @@ describe('Board Component', () => {
         });
     });
 
-    it('calls handleClick when a square is clicked', () => {
+    it('calls handleClick when square is clicked', () => {
         boardRowSpy.mockImplementation(({ rowIndex, handleClick }) => {
             return (
                 <div className='board-row' data-testid={`board-row-${rowIndex}`} onClick={() => handleClick(rowIndex)} />

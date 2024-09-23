@@ -11,7 +11,6 @@ jest.mock('../../hooks/use-game-state');
 jest.mock('../board');
 jest.mock('../navigation-menu');
 
-
 describe('Game Component', () => {
     let bordSpy: jest.SpyInstance;
     let navigationMenuSpy: jest.SpyInstance;
@@ -66,7 +65,8 @@ describe('Game Component', () => {
         // data-testid="board-current-status"のtextContentが期待値と一致するか検証
         expect(screen.getByTestId('board-current-status').textContent).toBe(mockCurrentStatus);
         // data-testid="square"のtextContentが期待値と一致するか検証
-        expect(screen.getByTestId('board-current-square').textContent).toBe(JSON.stringify(dummyState.history[dummyState.currentMove].squares));
+        expect(screen.getByTestId('board-current-square').textContent).toBe(
+            JSON.stringify(dummyState.history[dummyState.currentMove].squares));
 
         //bordSpyの呼び出し回数と呼び出し時の引数を検証
         expect(bordSpy).toHaveBeenCalledTimes(1);
@@ -110,7 +110,7 @@ describe('Game Component', () => {
 
         // data-testid='board'をクリック
         fireEvent.click(screen.getByTestId('board'));
-        // bordSpyでdata-testid='board'に仕込んだイベントの発火回数と引数を検証
+        // bordSpyでdata-testid='board'に仕込んだイベントのmockHandleClickの発火回数と引数を検証
         expect(mockHandleClick).toHaveBeenCalledTimes(1);
         expect(mockHandleClick).toHaveBeenCalledWith(0);
     });
@@ -119,7 +119,7 @@ describe('Game Component', () => {
         render(<Game />);
         // data-testid='navigation-menu'をクリック
         fireEvent.click(screen.getByTestId('navigation-menu'));
-        // bordSpyでdata-testid='navigation-menu'に仕込んだイベントの発火回数と引数を検証
+        // bordSpyでdata-testid='navigation-menu'に仕込んだイベントmockHandleJumpToの発火回数と引数を検証
         expect(mockHandleJumpTo).toHaveBeenCalledTimes(1);
         expect(mockHandleJumpTo).toHaveBeenCalledWith(1);
     });
