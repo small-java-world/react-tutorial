@@ -1,11 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import NavigationMenu, {NavigationMenuProp} from '../navigation-menu';
+import NavigationMenu from '../navigation-menu';
 import { Step } from '../../types/game-type';
-import userEvent from '@testing-library/user-event';
 import * as navigationMenuItem from "../navigation-menu-item";
 import {NavigationMenuItemProps} from "../navigation-menu-item";
-
 
 jest.mock('../navigation-menu-item');
 
@@ -30,7 +28,6 @@ describe('NavigationMenu Component', () => {
 
     test('does not render any buttons when history is empty', () => {
         render(<NavigationMenu history={[]} handleJumpTo={jumpToMock} />);
-        screen.debug();
         expect(screen.queryByRole('button', {  name: /go to game start/i})).not.toBeInTheDocument();
         Array(8).fill(0).forEach((_, index) =>
             expect(screen.queryByRole('button', {  name: `Go to move #${index+1}`})).not.toBeInTheDocument());
