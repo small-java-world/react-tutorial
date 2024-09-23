@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import NavigationMenuItem from '../../components/navigation-menu-item';
+import NavigationMenuItem from '../navigation-menu-item';
 
 describe('NavigationMenuItem Component', () => {
     const handleJumpToMock = jest.fn();

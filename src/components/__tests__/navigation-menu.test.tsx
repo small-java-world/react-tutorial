@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import NavigationMenu, {NavigationMenuProp} from '../../components/navigation-menu';
+import NavigationMenu, {NavigationMenuProp} from '../navigation-menu';
 import { Step } from '../../types/game-type';
 import userEvent from '@testing-library/user-event';
-import * as navigationMenuItem from "../../components/navigation-menu-item";
-import {NavigationMenuItemProps} from "../../components/navigation-menu-item";
+import * as navigationMenuItem from "../navigation-menu-item";
+import {NavigationMenuItemProps} from "../navigation-menu-item";
 
 
-jest.mock('../../components/navigation-menu-item');
+jest.mock('../navigation-menu-item');
 
 describe('NavigationMenu Component', () => {
     const jumpToMock = jest.fn();

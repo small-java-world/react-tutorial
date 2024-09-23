@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import BoardRow from '../../components/board-row';
+import BoardRow from '../board-row';
 import { SquareState } from '../../types/game-type';
-import * as square from '../../components/square';
+import * as square from '../square';
 
-jest.mock('../../components/square');
+jest.mock('../square');
 
 describe('BoardRow Component', () => {
     const handleClick = jest.fn();

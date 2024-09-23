@@ -1,15 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Game from '../../components/game';
-import {NavigationMenuProp} from "../../components/navigation-menu";
-import {BoardProps} from "../../components/board";
-import * as board from "../../components/board";
-import * as navigationMenu from "../../components/navigation-menu";
+import Game from '../game';
+import {NavigationMenuProp} from "../navigation-menu";
+import {BoardProps} from "../board";
+import * as board from "../board";
+import * as navigationMenu from "../navigation-menu";
 import {useGameState} from "../../hooks/use-game-state";
 
 jest.mock('../../hooks/use-game-state');
-jest.mock('../../components/board');
-jest.mock('../../components/navigation-menu');
+jest.mock('../board');
+jest.mock('../navigation-menu');
 
 
 describe('Game Component', () => {
