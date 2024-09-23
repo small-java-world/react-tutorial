@@ -1,6 +1,6 @@
 import React from 'react';
 import {SquareState} from "../types/game-type";
-import Square from "../components/square"
+import BoardRow from "./board-row";
 
 const rowLength = 3;
 const columnLength = 3;
@@ -15,21 +15,17 @@ const Board = (props: BoardProps) => {
     return (
         <div className="game-board">
             <div className="status">{props.currentStatus}</div>
-            {Array(rowLength).fill(0).map((_: undefined, rowIndex: number) => {
-                return (
-                    <div className='board-row' key={`row-${rowIndex}`}>
-                        {Array(columnLength).fill(0).map((_: undefined, columnIndex: number) => {
-                            const squaresIndex = columnIndex + rowIndex * rowLength;
-                            return <Square value={props.squares[squaresIndex]}
-                                           onSquareClick={() => props.handleClick(squaresIndex)}
-                                           key={`column-${rowIndex}-${columnIndex}`}/>;
-                        })}
-                    </div>
-                );
-            })}
+            {Array(rowLength).fill(0).map((_: undefined, rowIndex: number) => (
+                <BoardRow
+                    rowIndex={rowIndex}
+                    rowLength={columnLength}
+                    squares={props.squares}
+                    handleClick={props.handleClick}
+                    key={`row-${rowIndex}`}
+                />
+            ))}
         </div>
     );
 }
-
 
 export default Board;

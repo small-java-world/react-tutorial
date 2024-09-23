@@ -1,55 +1,58 @@
 import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
 import Board from '../../components/board';
-import * as square from "../../components/square";
-import {SquareProps} from "../../components/square";
+import * as boardRow from "../../components/board-row";
 import {SquareState} from "../../types/game-type";
 
-jest.mock('../../components/Square')
+jest.mock('../../components/board-row');
 
 describe('Board Component', () => {
     const onSquareClick = jest.fn();
     const squares: SquareState[] = ["O", "O", "X", "O", "X", "O", "X", "O", "X"];
-    let squareSpy: jest.SpyInstance;
-    const mockCurrentStatus =  "Next player: X";
+    let boardRowSpy: jest.SpyInstance;
+    const mockCurrentStatus = "Next player: X";
 
     beforeEach(() => {
-        squareSpy = jest.spyOn(square, "default")
+        boardRowSpy = jest.spyOn(boardRow, "default");
     });
 
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it('renders the correct number of squares', () => {
+    it('renders the correct number of rows', () => {
         render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
         expect(screen.getByText(/Next player: X/i)).toBeInTheDocument();
 
-        expect(squareSpy).toHaveBeenCalledTimes(9);
-        squares.forEach((value, index) => {
-            expect(squareSpy).toHaveBeenNthCalledWith(index + 1,
+        expect(boardRowSpy).toHaveBeenCalledTimes(3);
+        Array(3).fill(0).forEach((_, rowIndex) => {
+            expect(boardRowSpy).toHaveBeenNthCalledWith(rowIndex + 1,
                 {
-                    value,
-                    "onSquareClick": expect.any(Function),
+                    rowIndex,
+                    rowLength: 3,
+                    squares,
+                    handleClick: expect.any(Function),
                 },
                 {}
-            )
+            );
         });
     });
 
-    it('renders the correct number of squares2', () => {
-        squareSpy.mockImplementation((props: SquareProps) => {
+    it('calls handleClick when a square is clicked', () => {
+        boardRowSpy.mockImplementation(({ rowIndex, rowLength, squares, handleClick }) => {
             return (
-                <button className='square' onClick={props.onSquareClick}>
-                    {props.value}
-                </button>
-            )
+                <div className='board-row' data-testid={`board-row-${rowIndex}`} onClick={() => handleClick(rowIndex)} />
+            );
         });
         render(<Board squares={squares} currentStatus={mockCurrentStatus} handleClick={onSquareClick}/>);
-        const firstSquareButton = screen.getAllByRole('button')[0];
-        fireEvent.click(firstSquareButton);
+        const firstRow = screen.getByTestId('board-row-0');
+        fireEvent.click(firstRow);
         expect(onSquareClick).toHaveBeenCalledTimes(1);
+        expect(onSquareClick).toHaveBeenNthCalledWith(1, 0);
+
+        const secondRow =  screen.getByTestId('board-row-1');
+        fireEvent.click(secondRow);
+        expect(onSquareClick).toHaveBeenCalledTimes(2);
+        expect(onSquareClick).toHaveBeenNthCalledWith(2, 1);
     });
-
-
 });
