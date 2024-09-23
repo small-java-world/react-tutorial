@@ -57,28 +57,69 @@ describe('Game Component', () => {
     });
 
     test('renders Board component with correct props', () => {
+        // Gameコンポーネントを描画
         render(<Game />);
+
+        // data-testid="board"が存在するか検証
         expect(screen.getByTestId('board')).toBeInTheDocument();
+
+        // data-testid="board-current-status"のtextContentが期待値と一致するか検証
         expect(screen.getByTestId('board-current-status').textContent).toBe(mockCurrentStatus);
+        // data-testid="square"のtextContentが期待値と一致するか検証
         expect(screen.getByTestId('board-current-square').textContent).toBe(JSON.stringify(dummyState.history[dummyState.currentMove].squares));
+
+        //bordSpyの呼び出し回数と呼び出し時の引数を検証
+        expect(bordSpy).toHaveBeenCalledTimes(1);
+        expect(bordSpy).toHaveBeenNthCalledWith(1,
+            {
+                currentStatus: "Next player: X",
+                handleClick: expect.any(Function),
+                "squares": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                ],
+            },
+            {}
+        );
     });
 
     test('renders NavigationMenu component with correct props', () => {
         render(<Game/>);
+
         expect(screen.getByTestId('navigation-menu')).toBeInTheDocument();
         expect(screen.getByTestId('navigation-menu').textContent).toBe(JSON.stringify(dummyState.history));
+        expect(navigationMenuSpy).toHaveBeenCalledTimes(1);
+        expect(navigationMenuSpy).toHaveBeenNthCalledWith(1,
+            {
+                history: dummyState.history,
+                handleJumpTo: expect.any(Function),
+            },
+            {}
+        );
     });
 
     test('calls handleClick when a square is clicked', () => {
         render(<Game />);
+
+        // data-testid='board'をクリック
         fireEvent.click(screen.getByTestId('board'));
+        // bordSpyでdata-testid='board'に仕込んだイベントの発火回数と引数を検証
         expect(mockHandleClick).toHaveBeenCalledTimes(1);
         expect(mockHandleClick).toHaveBeenCalledWith(0);
     });
 
     test('calls jumpTo when a navigation button is clicked', () => {
         render(<Game />);
+        // data-testid='navigation-menu'をクリック
         fireEvent.click(screen.getByTestId('navigation-menu'));
+        // bordSpyでdata-testid='navigation-menu'に仕込んだイベントの発火回数と引数を検証
         expect(mockHandleJumpTo).toHaveBeenCalledTimes(1);
         expect(mockHandleJumpTo).toHaveBeenCalledWith(1);
     });

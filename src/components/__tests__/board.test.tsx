@@ -31,7 +31,7 @@ describe('Board Component', () => {
                     rowIndex,
                     rowLength: 3,
                     squares,
-                    handleClick: expect.any(Function),
+                    handleClick: onSquareClick,
                 },
                 {}
             );
